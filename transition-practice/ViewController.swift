@@ -10,23 +10,25 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+  override func viewDidLoad() {
+    super.viewDidLoad()
 
-        let button = UIButton(type: .system)
-        button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
-        button.frame = .init(x: 0, y: 0, width: 100, height: 100)
-        button.center = view.center
-        button.setTitle("hoge", for: .normal)
-        view.addSubview(button)
+    view.backgroundColor = .white
+    
+    let button = UIButton(type: .system)
+    button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+    button.frame = .init(x: 0, y: 0, width: 100, height: 100)
+    button.center = view.center
+    button.setTitle("hoge", for: .normal)
+    view.addSubview(button)
 
-    }
+  }
 
-    @objc func didTapButton() {
+  @objc func didTapButton() {
 
-        let controller = DetailViewController()
-        present(controller, animated: true, completion: nil)
-    }
+    let controller = DetailViewController()
+    present(controller, animated: true, completion: nil)
+  }
 
 
 }
@@ -34,26 +36,26 @@ class ViewController: UIViewController {
 
 class DetailViewController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+  override func viewDidLoad() {
+    super.viewDidLoad()
 
-        view.backgroundColor = .white
-        
-        let button = UIButton(type: .system)
-        button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
-        button.frame = .init(x: 0, y: 0, width: 100, height: 100)
-        button.center = view.center
-        button.setTitle("hoge", for: .normal)
-        view.addSubview(button)
+    view.backgroundColor = .white
 
-    }
+    let button = UIButton(type: .system)
+    button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+    button.frame = .init(x: 0, y: 0, width: 100, height: 100)
+    button.center = view.center
+    button.setTitle("hoge", for: .normal)
+    view.addSubview(button)
 
-    @objc func didTapButton() {
+  }
 
-        let controller = DetailViewController()
-        controller.modalPresentationStyle = .overFullScreen
-        present(controller, animated: true, completion: nil)
-        
-    }
+  @objc func didTapButton() {
+
+    let controller = DetailViewController()
+    controller.modalPresentationStyle = .overFullScreen
+    present(controller, animated: true, completion: nil)
+
+  }
 
 }
