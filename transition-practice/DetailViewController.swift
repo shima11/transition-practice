@@ -7,10 +7,13 @@
 //
 
 import UIKit
+import EasyPeasy
 
 class DetailViewController: UIViewController {
 
   let interactor: Interactor = .init()
+
+  let moveObject: UIView = .init()
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -21,14 +24,30 @@ class DetailViewController: UIViewController {
     let gesture = UIPanGestureRecognizer(target: self, action: #selector(panGesture(sender:)))
     view.addGestureRecognizer(gesture)
 
+    moveObject.backgroundColor = .darkGray
+
     let closeButton = UIButton()
     closeButton.setTitle("x", for: .normal)
+    closeButton.setTitleColor(.white, for: .normal)
     closeButton.addTarget(self, action: #selector(close), for: .touchUpInside)
-    closeButton.frame = .init(x: 0, y: 0, width: 36, height: 36)
-    closeButton.center = view.center
     closeButton.layer.cornerRadius = 18
-    closeButton.backgroundColor = .darkGray
+    closeButton.backgroundColor = UIColor.init(white: 0, alpha: 0.8)
+
+    view.addSubview(moveObject)
     view.addSubview(closeButton)
+
+    moveObject.easy.layout(
+      Left(),
+      Top(),
+      Right(),
+      Height(300)
+    )
+
+    closeButton.easy.layout(
+      Top(32).to(view.safeAreaLayoutGuide, .top),
+      Right(32),
+      Size(36)
+    )
 
   }
 
@@ -41,7 +60,6 @@ class DetailViewController: UIViewController {
 
     let percentThreshold: CGFloat = 0.3
 
-    // convert y-position to downward pull progress (percentage)
     let translation = sender.translation(in: view)
     let verticalMovement = translation.y / view.bounds.height
     let downwardMovement = fmaxf(Float(verticalMovement), 0.0)
