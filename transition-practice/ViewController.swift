@@ -11,35 +11,47 @@ import EasyPeasy
 
 class ViewController: UIViewController {
 
-  let moveObject: UIView = .init()
+  let moveObject1: UIView = .init()
+  let moveObject2: UIView = .init()
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
     view.backgroundColor = .white
 
-//    let button = UIButton(type: .system)
-//    button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
-//    button.frame = .init(x: 0, y: 0, width: 100, height: 100)
-//    button.center = view.center
-//    button.setTitle("open", for: .normal)
-//    view.addSubview(button)
+    moveObject1.backgroundColor = .gray
+    let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(didTapObject1))
+    moveObject1.addGestureRecognizer(tapGesture1)
+    view.addSubview(moveObject1)
 
-    moveObject.backgroundColor = .darkGray
-    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapButton))
-    moveObject.addGestureRecognizer(tapGesture)
-    view.addSubview(moveObject)
+    moveObject2.backgroundColor = .darkGray
+    let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector(didTapObject2))
+    moveObject2.addGestureRecognizer(tapGesture2)
+    view.addSubview(moveObject2)
 
-    moveObject.easy.layout(
-      Center(),
+    moveObject1.easy.layout(
+      CenterX(),
+      CenterY(-100),
       Size(100)
     )
+
+    moveObject2.easy.layout(
+      CenterX(),
+      CenterY(100),
+      Size(100)
+    )
+
   }
 
-  @objc func didTapButton() {
+  @objc func didTapObject1() {
 
     let controller = DetailViewController()
     present(controller, animated: true, completion: nil)
   }
 
+  @objc func didTapObject2() {
+
+    let controller = DetailViewController()
+    navigationController?.pushViewController(controller, animated: true)
+  }
 }
