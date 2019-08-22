@@ -8,7 +8,8 @@
 
 import UIKit
 
-class Interactor: UIPercentDrivenInteractiveTransition {
+class InteractiveTransition: UIPercentDrivenInteractiveTransition {
+  
   var hasStarted = false
   var shouldFinish = false
 }

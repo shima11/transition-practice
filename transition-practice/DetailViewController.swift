@@ -6,12 +6,18 @@
 //  Copyright © 2019 Jinsei Shima. All rights reserved.
 //
 
+// https://medium.com/@vialyx/import-uikit-custom-modal-transitioning-with-swift-6f320de70f55
+// https://medium.com/@ludvigeriksson/custom-interactive-uinavigationcontroller-transition-animations-in-swift-4-a4b5e0cefb1e
+// https://theswiftdev.com/2018/04/26/ios-custom-transition-tutorial-in-swift/
+// https://tech.pepabo.com/2018/04/20/minne-ios-pull-to-close/
+
 import UIKit
 import EasyPeasy
 
 class DetailViewController: UIViewController {
 
-  let interactor: Interactor = .init()
+  let modalTransitioning: ModalTransitioningDelegate = .init()
+  let interactor: InteractiveTransition = .init()
 
   let moveObject: UIView = .init()
 
@@ -19,7 +25,9 @@ class DetailViewController: UIViewController {
     super.viewDidLoad()
 
     view.backgroundColor = .groupTableViewBackground
-    transitioningDelegate = self
+
+    modalTransitioning.setInteractiveTransition(interactor)
+    transitioningDelegate = modalTransitioning
 
     let gesture = UIPanGestureRecognizer(target: self, action: #selector(panGesture(sender:)))
     view.addGestureRecognizer(gesture)
@@ -90,15 +98,4 @@ class DetailViewController: UIViewController {
     }
   }
 
-}
-
-extension DetailViewController: UIViewControllerTransitioningDelegate {
-
-  func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-    return DismissAnimator()
-  }
-
-  func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-    return interactor.hasStarted ? interactor : nil
-  }
 }
