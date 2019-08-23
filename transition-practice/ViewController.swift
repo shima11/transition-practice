@@ -23,12 +23,12 @@ class ViewController: UIViewController, InteractiveTransitionType {
 
     view.backgroundColor = .white
 
-    moveObject1.backgroundColor = .gray
+    moveObject1.backgroundColor = .darkGray
     let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(didTapObject1))
     moveObject1.addGestureRecognizer(tapGesture1)
     view.addSubview(moveObject1)
 
-    moveObject2.backgroundColor = .darkGray
+    moveObject2.backgroundColor = .lightGray
     let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector(didTapObject2))
     moveObject2.addGestureRecognizer(tapGesture2)
     view.addSubview(moveObject2)
@@ -51,7 +51,6 @@ class ViewController: UIViewController, InteractiveTransitionType {
 
     let delegate = ModalTransitioningDelegate(fromViewController: self)
     let controller = DetailViewController(modalTransitioning: delegate)
-//    controller.modalPresentationStyle = .overCurrentContext
     present(controller, animated: true, completion: nil)
   }
 

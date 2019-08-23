@@ -25,19 +25,15 @@ class DismissAnimator: NSObject, UIViewControllerAnimatedTransitioning {
   func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
 
     let fromVC = transitionContext.viewController(forKey: .from) as! UIViewController & InteractiveTransitionType
-//    let toVC = transitionContext.viewController(forKey: .to) as! UIViewController & InteractiveTransitionType
-    let toVC = fromViewController
+    let toVC = (transitionContext.viewController(forKey: .to) as! UINavigationController).topViewController as! UIViewController & InteractiveTransitionType
+//    let toVC = fromViewController
 
-    transitionContext.containerView.insertSubview(toVC.view, belowSubview: fromVC.view)
-
-    let screenBounds = UIScreen.main.bounds
-    let bottomLeftCorner = CGPoint(x: 0, y: screenBounds.height)
-    let finalFrame = CGRect(origin: bottomLeftCorner, size: screenBounds.size)
+    let finalFrame = toVC.bodyView.frame
 
     UIView.animate(
       withDuration: transitionDuration(using: transitionContext),
       animations: {
-        fromVC.view.frame = finalFrame
+        fromVC.bodyView.frame = finalFrame
     },
       completion: { _ in
         transitionContext.completeTransition(!transitionContext.transitionWasCancelled)

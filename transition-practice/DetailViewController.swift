@@ -23,19 +23,15 @@ class DetailViewController: UIViewController, InteractiveTransitionType {
   let modalTransitioning: ModalTransitioningDelegate
 
   init(modalTransitioning: ModalTransitioningDelegate) {
-    
+
     self.modalTransitioning = modalTransitioning
 
     super.init(nibName: nil, bundle: nil)
+
+    self.modalPresentationStyle = .overCurrentContext
+
   }
-
-//  init() {
-//
-//    super.init(nibName: nil, bundle: nil)
-//    
-//    self.modalPresentationStyle = .overCurrentContext
-//  }
-
+  
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
