@@ -10,17 +10,12 @@ import UIKit
 
 class MatchedTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
 
-//  let fromViewController: (UIViewController & InteractiveTransitionType)
   let isPresented: Bool
 
-//  init(fromViewController: (UIViewController & InteractiveTransitionType), isPresented: Bool) {
-//    self.fromViewController = fromViewController
-//    self.isPresented = isPresented
-//    super.init()
-//  }
-
   init(isPresented: Bool) {
+
     self.isPresented = isPresented
+    
     super.init()
   }
 
@@ -41,7 +36,6 @@ class MatchedTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning
 
       toVC.beginAppearanceTransition(true, animated: true)
       fromVC.beginAppearanceTransition(false, animated: false)
-//      transitionContext.containerView.addSubview(toVC.view)
       transitionContext.containerView.addSubview(toVC.view)
     }
     else {
@@ -51,7 +45,6 @@ class MatchedTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning
 
       toVC.beginAppearanceTransition(true, animated: true)
       fromVC.beginAppearanceTransition(false, animated: false)
-//      transitionContext.containerView.insertSubview(toVC.view, belowSubview: fromVC.view)
     }
 
     toVC.view.layoutIfNeeded()

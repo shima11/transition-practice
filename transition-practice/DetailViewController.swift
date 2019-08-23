@@ -28,8 +28,9 @@ class DetailViewController: UIViewController, InteractiveTransitionType {
 
     super.init(nibName: nil, bundle: nil)
 
-    self.transitioningDelegate = modalTransitioning
-    self.modalPresentationStyle = .overCurrentContext
+    transitioningDelegate = modalTransitioning
+    modalPresentationStyle = .overCurrentContext
+    modalTransitioning.interactor.setTriggerGesture(target: self)
 
   }
 
@@ -43,9 +44,6 @@ class DetailViewController: UIViewController, InteractiveTransitionType {
     super.viewDidLoad()
 
     view.backgroundColor = .groupTableViewBackground
-
-    let gesture = UIPanGestureRecognizer(target: self, action: #selector(panGesture(sender:)))
-    view.addGestureRecognizer(gesture)
 
     moveObject.backgroundColor = .darkGray
 
@@ -77,35 +75,6 @@ class DetailViewController: UIViewController, InteractiveTransitionType {
   @objc func close() {
 
     dismiss(animated: true, completion: nil)
-  }
-
-  @objc func panGesture(sender: UIPanGestureRecognizer) {
-
-    let percentThreshold: CGFloat = 0.3
-
-    let translation = sender.translation(in: view)
-    let verticalMovement = translation.y / view.bounds.height
-    let downwardMovement = fmaxf(Float(verticalMovement), 0.0)
-    let downwardMovementPercent = fminf(downwardMovement, 1.0)
-    let progress = CGFloat(downwardMovementPercent)
-
-    switch sender.state {
-    case .began:
-      modalTransitioning.beganInteraction()
-      dismiss(animated: true, completion: nil)
-
-    case .changed:
-      modalTransitioning.changedInteraction(shouldFinish: progress > percentThreshold, progress: progress)
-
-    case .cancelled, .failed:
-      modalTransitioning.cancelInteraction()
-      
-    case .ended:
-      modalTransitioning.finishInteraction()
-
-    default:
-      break
-    }
   }
 
 }

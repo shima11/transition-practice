@@ -14,37 +14,7 @@ protocol InteractiveTransitionType: class {
 
 class ModalTransitioningDelegate: NSObject {
 
-
-//  let toViewController: (UIViewController & InteractiveTransitionType)
-
-//  init(toViewController: (UIViewController & InteractiveTransitionType)) {
-//
-//    self.toViewController = toViewController
-//
-//    super.init()
-//  }
-
   let interactor: InteractiveTransition = .init()
-
-  func beganInteraction() {
-    interactor.hasStarted = true
-  }
-  
-  func changedInteraction(shouldFinish: Bool, progress: CGFloat) {
-    interactor.shouldFinish = shouldFinish
-    interactor.update(progress)
-  }
-
-  func cancelInteraction() {
-    interactor.hasStarted = false
-    interactor.cancel()
-  }
-
-  func finishInteraction() {
-    interactor.hasStarted = false
-    interactor.shouldFinish ? interactor.finish() : interactor.cancel()
-  }
-  
 }
 
 extension ModalTransitioningDelegate : UIViewControllerTransitioningDelegate {
