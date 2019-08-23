@@ -1,16 +1,20 @@
 PODS:
   - EasyPeasy (1.9.0)
+  - Reveal-SDK (24)
 
 DEPENDENCIES:
   - EasyPeasy
+  - Reveal-SDK
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - EasyPeasy
+    - Reveal-SDK
 
 SPEC CHECKSUMS:
   EasyPeasy: 19a84ef8f8bbcf925b9fecc29d1d78b7dab96718
+  Reveal-SDK: 5d7e56b8f018c0a88b3a2c10bf68d598bbd3b071
 
-PODFILE CHECKSUM: 5a18e27776a528dfd589d417ed9628df018ecd5c
+PODFILE CHECKSUM: bbefda9f734550ec11eaa3eb7cc0cbe9b9bef106
 
 COCOAPODS: 1.7.3
