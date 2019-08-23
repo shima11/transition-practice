@@ -10,21 +10,45 @@ import UIKit
 
 class ModalTransitioningDelegate: NSObject {
 
-  var interactor: InteractiveTransition?
+  let interactor: InteractiveTransition = .init()
+
+  func beganInteraction() {
+    interactor.hasStarted = true
+  }
+  
+  func changedInteraction(shouldFinish: Bool, progress: CGFloat) {
+    interactor.shouldFinish = shouldFinish
+    interactor.update(progress)
+  }
+
+  func cancelInteraction() {
+    interactor.hasStarted = false
+    interactor.cancel()
+  }
+
+  func finishInteraction() {
+    interactor.hasStarted = false
+    interactor.shouldFinish ? interactor.finish() : interactor.cancel()
+  }
+  
 }
 
 extension ModalTransitioningDelegate : UIViewControllerTransitioningDelegate {
 
-  func setInteractiveTransition(_ transition: InteractiveTransition) {
-    self.interactor = transition
-  }
-
   func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+
     return DismissAnimator()
   }
 
   func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-    return (interactor?.hasStarted ?? false) ? interactor : nil
+
+    return interactor.hasStarted ? interactor : nil
+  }
+
+  func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+
+    return nil
   }
 
 }
+

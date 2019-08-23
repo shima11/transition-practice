@@ -6,9 +6,9 @@
 //  Copyright © 2019 Jinsei Shima. All rights reserved.
 //
 
+// https://theswiftdev.com/2018/04/26/ios-custom-transition-tutorial-in-swift/
 // https://medium.com/@vialyx/import-uikit-custom-modal-transitioning-with-swift-6f320de70f55
 // https://medium.com/@ludvigeriksson/custom-interactive-uinavigationcontroller-transition-animations-in-swift-4-a4b5e0cefb1e
-// https://theswiftdev.com/2018/04/26/ios-custom-transition-tutorial-in-swift/
 // https://tech.pepabo.com/2018/04/20/minne-ios-pull-to-close/
 
 import UIKit
@@ -17,7 +17,6 @@ import EasyPeasy
 class DetailViewController: UIViewController {
 
   let modalTransitioning: ModalTransitioningDelegate = .init()
-  let interactor: InteractiveTransition = .init()
 
   let moveObject: UIView = .init()
 
@@ -26,7 +25,6 @@ class DetailViewController: UIViewController {
 
     view.backgroundColor = .groupTableViewBackground
 
-    modalTransitioning.setInteractiveTransition(interactor)
     transitioningDelegate = modalTransitioning
 
     let gesture = UIPanGestureRecognizer(target: self, action: #selector(panGesture(sender:)))
@@ -76,22 +74,17 @@ class DetailViewController: UIViewController {
 
     switch sender.state {
     case .began:
-      interactor.hasStarted = true
+      modalTransitioning.beganInteraction()
       dismiss(animated: true, completion: nil)
 
     case .changed:
-      interactor.shouldFinish = progress > percentThreshold
-      interactor.update(progress)
+      modalTransitioning.changedInteraction(shouldFinish: progress > percentThreshold, progress: progress)
 
-    case .cancelled:
-      interactor.hasStarted = false
-      interactor.cancel()
-
+    case .cancelled, .failed:
+      modalTransitioning.cancelInteraction()
+      
     case .ended:
-      interactor.hasStarted = false
-      interactor.shouldFinish
-        ? interactor.finish()
-        : interactor.cancel()
+      modalTransitioning.finishInteraction()
 
     default:
       break

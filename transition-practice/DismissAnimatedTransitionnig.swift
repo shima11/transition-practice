@@ -15,6 +15,7 @@ class DismissAnimator: NSObject, UIViewControllerAnimatedTransitioning {
   }
 
   func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+
     guard
       let fromVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from),
       let toVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
@@ -35,7 +36,7 @@ class DismissAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     },
       completion: { _ in
         transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
-    }
-    )
+    })
+
   }
 }
