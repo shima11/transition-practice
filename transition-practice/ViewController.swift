@@ -49,14 +49,14 @@ class ViewController: UIViewController, InteractiveTransitionType {
 
   @objc func didTapObject1() {
 
-    let delegate = ModalTransitioningDelegate(fromViewController: self)
+    let delegate = ModalTransitioningDelegate()
     let controller = DetailViewController(modalTransitioning: delegate)
     present(controller, animated: true, completion: nil)
   }
 
   @objc func didTapObject2() {
 
-    let delegate = ModalTransitioningDelegate(fromViewController: self)
+    let delegate = ModalTransitioningDelegate()
     let controller = DetailViewController(modalTransitioning: delegate)
     navigationController?.pushViewController(controller, animated: true)
   }

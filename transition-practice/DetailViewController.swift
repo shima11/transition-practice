@@ -28,10 +28,11 @@ class DetailViewController: UIViewController, InteractiveTransitionType {
 
     super.init(nibName: nil, bundle: nil)
 
+    self.transitioningDelegate = modalTransitioning
     self.modalPresentationStyle = .overCurrentContext
 
   }
-  
+
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
@@ -42,8 +43,6 @@ class DetailViewController: UIViewController, InteractiveTransitionType {
     super.viewDidLoad()
 
     view.backgroundColor = .groupTableViewBackground
-
-    transitioningDelegate = modalTransitioning
 
     let gesture = UIPanGestureRecognizer(target: self, action: #selector(panGesture(sender:)))
     view.addGestureRecognizer(gesture)

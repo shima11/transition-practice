@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		D0495DBAD02D8E721212D8A9 /* Pods_transition_practice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0DDDD5434FE64CCE96C9365 /* Pods_transition_practice.framework */; };
 		D47AA37D230EB6C300888627 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47AA37C230EB6C300888627 /* DetailViewController.swift */; };
-		D47AA37F230EB6DA00888627 /* DismissAnimatedTransitionnig.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47AA37E230EB6DA00888627 /* DismissAnimatedTransitionnig.swift */; };
+		D47AA37F230EB6DA00888627 /* MatchedTransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47AA37E230EB6DA00888627 /* MatchedTransitionAnimator.swift */; };
 		D47AA381230EB6FE00888627 /* InteractiveTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47AA380230EB6FE00888627 /* InteractiveTransition.swift */; };
 		D47AA383230ECCF400888627 /* ModalTransitioningDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47AA382230ECCF400888627 /* ModalTransitioningDelegate.swift */; };
 		D4EBBF312249FC6E00FB47A3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EBBF302249FC6E00FB47A3 /* AppDelegate.swift */; };
@@ -22,7 +22,7 @@
 		25CC14F68281C8D364B40CFF /* Pods-transition-practice.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-transition-practice.release.xcconfig"; path = "Target Support Files/Pods-transition-practice/Pods-transition-practice.release.xcconfig"; sourceTree = "<group>"; };
 		353D9C62C5ACF8D11C312C7F /* Pods-transition-practice.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-transition-practice.debug.xcconfig"; path = "Target Support Files/Pods-transition-practice/Pods-transition-practice.debug.xcconfig"; sourceTree = "<group>"; };
 		D47AA37C230EB6C300888627 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
-		D47AA37E230EB6DA00888627 /* DismissAnimatedTransitionnig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissAnimatedTransitionnig.swift; sourceTree = "<group>"; };
+		D47AA37E230EB6DA00888627 /* MatchedTransitionAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchedTransitionAnimator.swift; sourceTree = "<group>"; };
 		D47AA380230EB6FE00888627 /* InteractiveTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveTransition.swift; sourceTree = "<group>"; };
 		D47AA382230ECCF400888627 /* ModalTransitioningDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalTransitioningDelegate.swift; sourceTree = "<group>"; };
 		D4EBBF2D2249FC6E00FB47A3 /* transition-practice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "transition-practice.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -78,7 +78,7 @@
 				D4EBBF302249FC6E00FB47A3 /* AppDelegate.swift */,
 				D47AA380230EB6FE00888627 /* InteractiveTransition.swift */,
 				D47AA382230ECCF400888627 /* ModalTransitioningDelegate.swift */,
-				D47AA37E230EB6DA00888627 /* DismissAnimatedTransitionnig.swift */,
+				D47AA37E230EB6DA00888627 /* MatchedTransitionAnimator.swift */,
 				D4EBBF322249FC6E00FB47A3 /* ViewController.swift */,
 				D47AA37C230EB6C300888627 /* DetailViewController.swift */,
 				D4EBBF372249FC7000FB47A3 /* Assets.xcassets */,
@@ -216,7 +216,7 @@
 				D4EBBF332249FC6E00FB47A3 /* ViewController.swift in Sources */,
 				D47AA381230EB6FE00888627 /* InteractiveTransition.swift in Sources */,
 				D4EBBF312249FC6E00FB47A3 /* AppDelegate.swift in Sources */,
-				D47AA37F230EB6DA00888627 /* DismissAnimatedTransitionnig.swift in Sources */,
+				D47AA37F230EB6DA00888627 /* MatchedTransitionAnimator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

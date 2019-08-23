@@ -15,14 +15,14 @@ protocol InteractiveTransitionType: class {
 class ModalTransitioningDelegate: NSObject {
 
 
-  let fromViewController: (UIViewController & InteractiveTransitionType)
+//  let toViewController: (UIViewController & InteractiveTransitionType)
 
-  init(fromViewController: (UIViewController & InteractiveTransitionType)) {
-
-    self.fromViewController = fromViewController
-
-    super.init()
-  }
+//  init(toViewController: (UIViewController & InteractiveTransitionType)) {
+//
+//    self.toViewController = toViewController
+//
+//    super.init()
+//  }
 
   let interactor: InteractiveTransition = .init()
 
@@ -51,12 +51,22 @@ extension ModalTransitioningDelegate : UIViewControllerTransitioningDelegate {
 
   func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
 
-    return DismissAnimator(fromViewController: fromViewController)
+    return MatchedTransitionAnimator(isPresented: false)
+  }
+
+  func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+
+    return MatchedTransitionAnimator(isPresented: true)
   }
 
   func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
 
     return interactor.hasStarted ? interactor : nil
+  }
+
+  func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+
+    return nil
   }
 
   func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
