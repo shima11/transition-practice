@@ -9,8 +9,18 @@
 import UIKit
 
 class InteractiveTransition: UIPercentDrivenInteractiveTransition {
-  
+
   var hasStarted = false
   var shouldFinish = false
-
 }
+
+//class InteractiveTransition: NSObject, UIViewControllerInteractiveTransitioning {
+//
+//  var hasStarted = false
+//  var shouldFinish = false
+//
+//  func startInteractiveTransition(_ transitionContext: UIViewControllerContextTransitioning) {
+//
+//  }
+//
+//}

@@ -8,7 +8,21 @@
 
 import UIKit
 
+protocol InteractiveTransitionType: class {
+  var bodyView: UIView { get }
+}
+
 class ModalTransitioningDelegate: NSObject {
+
+
+  let fromViewController: (UIViewController & InteractiveTransitionType)
+
+  init(fromViewController: (UIViewController & InteractiveTransitionType)) {
+
+    self.fromViewController = fromViewController
+
+    super.init()
+  }
 
   let interactor: InteractiveTransition = .init()
 
@@ -37,7 +51,7 @@ extension ModalTransitioningDelegate : UIViewControllerTransitioningDelegate {
 
   func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
 
-    return DismissAnimator()
+    return DismissAnimator(fromViewController: fromViewController)
   }
 
   func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
@@ -51,4 +65,3 @@ extension ModalTransitioningDelegate : UIViewControllerTransitioningDelegate {
   }
 
 }
-

@@ -8,5 +8,4 @@ target 'transition-practice' do
   # Pods for transition-practice
 
   pod 'EasyPeasy'
-
 end

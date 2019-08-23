@@ -9,8 +9,12 @@
 import UIKit
 import EasyPeasy
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, InteractiveTransitionType {
 
+  var bodyView: UIView {
+    return moveObject1
+  }
+  
   let moveObject1: UIView = .init()
   let moveObject2: UIView = .init()
 
@@ -45,13 +49,16 @@ class ViewController: UIViewController {
 
   @objc func didTapObject1() {
 
-    let controller = DetailViewController()
+    let delegate = ModalTransitioningDelegate(fromViewController: self)
+    let controller = DetailViewController(modalTransitioning: delegate)
+//    controller.modalPresentationStyle = .overCurrentContext
     present(controller, animated: true, completion: nil)
   }
 
   @objc func didTapObject2() {
 
-    let controller = DetailViewController()
+    let delegate = ModalTransitioningDelegate(fromViewController: self)
+    let controller = DetailViewController(modalTransitioning: delegate)
     navigationController?.pushViewController(controller, animated: true)
   }
 }

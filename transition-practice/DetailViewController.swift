@@ -14,9 +14,31 @@
 import UIKit
 import EasyPeasy
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController, InteractiveTransitionType {
 
-  let modalTransitioning: ModalTransitioningDelegate = .init()
+  var bodyView: UIView {
+    return moveObject
+  }
+  
+  let modalTransitioning: ModalTransitioningDelegate
+
+  init(modalTransitioning: ModalTransitioningDelegate) {
+    
+    self.modalTransitioning = modalTransitioning
+
+    super.init(nibName: nil, bundle: nil)
+  }
+
+//  init() {
+//
+//    super.init(nibName: nil, bundle: nil)
+//    
+//    self.modalPresentationStyle = .overCurrentContext
+//  }
+
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
 
   let moveObject: UIView = .init()
 

@@ -10,18 +10,23 @@ import UIKit
 
 class DismissAnimator: NSObject, UIViewControllerAnimatedTransitioning {
 
+  let fromViewController: (UIViewController & InteractiveTransitionType)
+
+  init(fromViewController: (UIViewController & InteractiveTransitionType)) {
+    self.fromViewController = fromViewController
+    super.init()
+  }
+
+
   func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
     return 0.3
   }
 
   func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
 
-    guard
-      let fromVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from),
-      let toVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
-      else {
-        return
-    }
+    let fromVC = transitionContext.viewController(forKey: .from) as! UIViewController & InteractiveTransitionType
+//    let toVC = transitionContext.viewController(forKey: .to) as! UIViewController & InteractiveTransitionType
+    let toVC = fromViewController
 
     transitionContext.containerView.insertSubview(toVC.view, belowSubview: fromVC.view)
 
