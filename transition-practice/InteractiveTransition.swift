@@ -14,6 +14,8 @@ import UIKit
 //  var shouldFinish = false
 //}
 
+// TODO: cornerRadiusとか画像とか要素の上に別のViewが張り付いている場合の対応
+
 class InteractiveTransition: NSObject, UIViewControllerInteractiveTransitioning, UIGestureRecognizerDelegate {
 
   private(set) var hasStarted = false
@@ -40,6 +42,7 @@ class InteractiveTransition: NSObject, UIViewControllerInteractiveTransitioning,
 
     let snapshotSourceView: UIView = fromViewController.bodyView.snapshotView(afterScreenUpdates: true)!
     self.draggableView = snapshotSourceView
+    self.draggableView?.layer.cornerRadius = fromViewController.bodyView.layer.cornerRadius
     self.draggableViewInitialFrame = snapshotSourceView.frame
     self.draggableViewFinalFrame = toViewController.bodyView.frame
 
@@ -74,14 +77,16 @@ class InteractiveTransition: NSObject, UIViewControllerInteractiveTransitioning,
     switch sender.state {
     case .began:
 
-      beganInteraction()
+      hasStarted = true
+
       targetViewController?.dismiss(animated: true, completion: nil)
 
       guard let draggableView = self.draggableView else { return }
       currentTransitionContext?.containerView.addSubview(draggableView)
 
     case .changed:
-      changedInteraction(shouldFinish: progress > percentThreshold, progress: progress)
+
+      self.shouldFinish = progress > percentThreshold
 
       guard let draggableView = self.draggableView else { return }
 
@@ -262,6 +267,5 @@ class InteractiveTransition: NSObject, UIViewControllerInteractiveTransitioning,
     animator.startAnimation()
 
   }
-
 
 }
