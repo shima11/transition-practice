@@ -43,7 +43,7 @@ class DetailViewController: UIViewController, InteractiveTransitionType {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    view.backgroundColor = .groupTableViewBackground
+    view.backgroundColor = .orange
 
     moveObject.backgroundColor = .darkGray
 

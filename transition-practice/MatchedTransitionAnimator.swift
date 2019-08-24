@@ -52,6 +52,7 @@ class MatchedTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning
 
     guard let snapshotView = fromVC.bodyView.snapshotView(afterScreenUpdates: true) else { return }
     snapshotView.frame = fromVC.bodyView.frame
+//    snapshotView.transform = fromVC.bodyView.transform
     transitionContext.containerView.addSubview(snapshotView)
     transitionContext.containerView.backgroundColor = fromVC.view.backgroundColor
 
@@ -65,6 +66,7 @@ class MatchedTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning
         fromVC.view.alpha = 0
         toVC.view.alpha = 1
         snapshotView.frame = toVC.bodyView.frame
+//        snapshotView.transform = toVC.bodyView.transform
     },
       completion: { _ in
         fromVC.bodyView.alpha = 1

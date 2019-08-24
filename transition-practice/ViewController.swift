@@ -21,11 +21,13 @@ class ViewController: UIViewController, InteractiveTransitionType {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    view.backgroundColor = .white
+    view.backgroundColor = .cyan
 
     moveObject1.backgroundColor = .darkGray
     let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(didTapObject1))
     moveObject1.addGestureRecognizer(tapGesture1)
+    moveObject1.layer.cornerRadius  = 50
+    moveObject1.clipsToBounds = true
     view.addSubview(moveObject1)
 
     moveObject2.backgroundColor = .lightGray

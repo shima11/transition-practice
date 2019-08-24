@@ -27,15 +27,15 @@ class InteractiveTransition: NSObject, UIViewControllerInteractiveTransitioning,
 //  private let coverView = UIView()
 //  private var startedPop = false
 
-  private weak var currentTransitionContext: UIViewControllerContextTransitioning?
-  private weak var targetViewController: (UIViewController & InteractiveTransitionType)?
+  private var currentTransitionContext: UIViewControllerContextTransitioning?
+  private var targetViewController: (UIViewController & InteractiveTransitionType)?
 
   func startInteractiveTransition(_ transitionContext: UIViewControllerContextTransitioning) {
 
     self.currentTransitionContext = transitionContext
 
-    let fromViewController = transitionContext.viewController(forKey: .from) as! UIViewController & InteractiveTransitionType
-
+//    let fromViewController = transitionContext.viewController(forKey: .from) as! UIViewController & InteractiveTransitionType
+    let fromViewController = targetViewController!
     let toViewController = (transitionContext.viewController(forKey: .to) as! UINavigationController).topViewController as! UIViewController & InteractiveTransitionType
 
     let snapshotSourceView: UIView = fromViewController.bodyView.snapshotView(afterScreenUpdates: true)!
@@ -63,7 +63,7 @@ class InteractiveTransition: NSObject, UIViewControllerInteractiveTransitioning,
 
     guard let target = sender.view else { return }
 
-    let percentThreshold: CGFloat = 0
+    let percentThreshold: CGFloat = 0.3
 
     let translation = sender.translation(in: target)
     let verticalMovement = translation.y / target.bounds.height
@@ -86,22 +86,21 @@ class InteractiveTransition: NSObject, UIViewControllerInteractiveTransitioning,
       guard let draggableView = self.draggableView else { return }
 
       let point = sender.translation(in: targetViewController!.view)
-
-//      let transform = draggableView.transform.translatedBy(x: draggableViewInitialFrame.midX + point.x, y: draggableViewInitialFrame.midY + point.y)
-//      draggableView.transform = transform
-
       draggableView.center = .init(x: draggableViewInitialFrame.midX + point.x, y: draggableViewInitialFrame.midY + point.y)
 
     case .cancelled, .failed:
       cancelInteraction()
-      currentTransitionContext?.completeTransition(shouldFinish)
+      animateCancel()
 
     case .ended:
       finishInteraction()
-      currentTransitionContext?.completeTransition(shouldFinish)
 
+      guard progress > percentThreshold else {
+        animateCancel()
+        return
+      }
 
-      
+      animateFinish(velocity: sender.velocity(in: draggableView))
 
     default:
       break
@@ -148,5 +147,121 @@ class InteractiveTransition: NSObject, UIViewControllerInteractiveTransitioning,
   private func cancel() {
 
   }
+
+  private func animateFinish(velocity: CGPoint) {
+
+    guard
+      let transitionContext = currentTransitionContext
+      else {
+        assertionFailure()
+        return
+    }
+
+    transitionContext.finishInteractiveTransition()
+
+    guard
+      let currentFrame = draggableView?.frame,
+      let targetFrame = draggableViewFinalFrame
+      else {
+        fatalError()
+    }
+
+    let base = CGVector(
+      dx: targetFrame.minX - currentFrame.minX,
+      dy: targetFrame.minY - currentFrame.minY
+    )
+
+    let animationDuration: TimeInterval = 0.5
+
+    let originAnimator = UIViewPropertyAnimator(
+      duration: animationDuration,
+      timingParameters: UISpringTimingParameters(
+        dampingRatio: 0.9,
+        initialVelocity: CGVector(
+          dx: (velocity.x / base.dx) * 1.5,
+          dy: (velocity.y / base.dy) * 2.5
+        )
+      )
+    )
+
+    let sizeAnimator = UIViewPropertyAnimator(
+      duration: animationDuration,
+      timingParameters: UICubicTimingParameters(
+        controlPoint1: .init(x: 0.15, y: 0.8),
+        controlPoint2: .init(x: 0.5, y: 1)
+      )
+    )
+
+//    let backgroundViewAnimator = UIViewPropertyAnimator(
+//      duration: animationDuration,
+//      timingParameters: UICubicTimingParameters(
+//        controlPoint1: .init(x: 0.36, y: 0.68),
+//        controlPoint2: .init(x: 0.5, y: 1)
+//      )
+//    )
+//
+//    backgroundViewAnimator
+//      .addAnimations {
+//        self.targetViewController?.view.transform = .identity
+//    }
+
+    sizeAnimator
+      .addAnimations {
+
+//        self.coverView.alpha = 0
+//        self.fromSnapshot?.alpha = 0
+        self.draggableView?.frame.size = self.draggableViewFinalFrame.size
+    }
+
+    originAnimator
+      .addAnimations {
+        self.draggableView?.frame.origin = self.draggableViewFinalFrame.origin
+    }
+
+    originAnimator
+      .addCompletion { (position) in
+        self.draggableView?.removeFromSuperview()
+        self.currentTransitionContext?.completeTransition(self.shouldFinish)
+    }
+
+//    backgroundViewAnimator.startAnimation()
+    originAnimator.startAnimation()
+    sizeAnimator.startAnimation()
+  }
+
+  private func animateCancel() {
+
+    guard
+      let transitionContext = currentTransitionContext
+      else {
+        assertionFailure()
+        return
+    }
+
+    transitionContext.cancelInteractiveTransition()
+
+    let animator = UIViewPropertyAnimator(
+      duration: 0.3,
+      timingParameters: UICubicTimingParameters(animationCurve: .easeInOut)
+    )
+
+    animator.addAnimations {
+//      self.fromSnapshot?.alpha = 1
+//      self.fromSnapshot?.transform = .identity
+//      self.draggableView?.transform = .identity
+      self.draggableView?.frame.size = self.draggableViewInitialFrame.size
+      self.draggableView?.frame.origin = self.draggableViewInitialFrame.origin
+    }
+
+    animator.addCompletion { _ in
+      self.draggableView?.removeFromSuperview()
+      self.currentTransitionContext?.completeTransition(self.shouldFinish)
+      self.targetViewController?.bodyView.alpha = 1
+    }
+
+    animator.startAnimation()
+
+  }
+
 
 }
