@@ -90,15 +90,14 @@ class InteractiveTransition: NSObject, UIViewControllerInteractiveTransitioning,
 
       guard let draggableView = self.draggableView else { return }
 
-      let point = sender.translation(in: targetViewController!.view)
-      draggableView.center = .init(x: draggableViewInitialFrame.midX + point.x, y: draggableViewInitialFrame.midY + point.y)
+      draggableView.center = .init(x: draggableViewInitialFrame.midX + translation.x, y: draggableViewInitialFrame.midY + translation.y)
 
     case .cancelled, .failed:
-      cancelInteraction()
+      hasStarted = false
       animateCancel()
 
     case .ended:
-      finishInteraction()
+      hasStarted = false
 
       guard progress > percentThreshold else {
         animateCancel()
@@ -119,38 +118,6 @@ class InteractiveTransition: NSObject, UIViewControllerInteractiveTransitioning,
 
   func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
     return true
-  }
-
-  func beganInteraction() {
-    hasStarted = true
-  }
-
-  func changedInteraction(shouldFinish: Bool, progress: CGFloat) {
-    self.shouldFinish = shouldFinish
-    self.update(progress: progress)
-  }
-
-  func cancelInteraction() {
-    hasStarted = false
-    self.cancel()
-  }
-
-  func finishInteraction() {
-    hasStarted = false
-    shouldFinish ? self.finish() : self.cancel()
-  }
-
-
-  private func update(progress: CGFloat) {
-
-  }
-
-  private func finish() {
-
-  }
-
-  private func cancel() {
-
   }
 
   private func animateFinish(velocity: CGPoint) {

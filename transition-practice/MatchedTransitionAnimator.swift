@@ -50,8 +50,21 @@ class MatchedTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning
     toVC.view.layoutIfNeeded()
 
 
-    guard let snapshotView = fromVC.bodyView.snapshotView(afterScreenUpdates: true) else { return }
+//    guard let snapshotView = fromVC.bodyView.snapshotView(afterScreenUpdates: true) else { return }
+    let snapshotView = UIView()
+    snapshotView.backgroundColor = fromVC.bodyView.backgroundColor
     snapshotView.frame = fromVC.bodyView.frame
+    snapshotView.layer.cornerRadius = fromVC.bodyView.layer.cornerRadius
+
+//    let animation = CABasicAnimation(keyPath: "cornerRadius")
+//    animation.duration = transitionDuration(using: transitionContext)
+//    animation.fromValue = fromVC.bodyView.layer.cornerRadius
+//    animation.toValue = toVC.bodyView.layer.cornerRadius
+//    animation.autoreverses = false
+//    animation.isRemovedOnCompletion = false
+//    animation.fillMode = CAMediaTimingFillMode.forwards
+//    snapshotView.layer.add(animation, forKey: nil)
+
 //    snapshotView.transform = fromVC.bodyView.transform
     transitionContext.containerView.addSubview(snapshotView)
     transitionContext.containerView.backgroundColor = fromVC.view.backgroundColor
@@ -66,6 +79,7 @@ class MatchedTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning
         fromVC.view.alpha = 0
         toVC.view.alpha = 1
         snapshotView.frame = toVC.bodyView.frame
+        snapshotView.layer.cornerRadius = toVC.bodyView.layer.cornerRadius
 //        snapshotView.transform = toVC.bodyView.transform
     },
       completion: { _ in
