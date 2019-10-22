@@ -53,6 +53,7 @@ class ViewController: UIViewController, InteractiveTransitionType {
 
     let delegate = ModalTransitioningDelegate()
     let controller = DetailViewController(modalTransitioning: delegate)
+    controller.modalPresentationStyle = .overFullScreen
     present(controller, animated: true, completion: nil)
   }
 

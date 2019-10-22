@@ -20,7 +20,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     let viewContorller = ViewController(nibName: nil, bundle: nil)
     let navigationController = UINavigationController(rootViewController: viewContorller)
-    window?.rootViewController = navigationController
+
+    let tabBarController = MainTabBarController(nibName: nil, bundle: nil)
+    tabBarController.setViewControllers([navigationController], animated: false)
+
+    window?.rootViewController = tabBarController
     window?.makeKeyAndVisible()
 
     return true
