@@ -19,24 +19,24 @@ class ModalTransitioningDelegate: NSObject {
 
 extension ModalTransitioningDelegate : UIViewControllerTransitioningDelegate {
 
+  func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+
+     return MatchedTransitionAnimator(isPresented: true)
+  }
+
   func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
 
     return MatchedTransitionAnimator(isPresented: false)
   }
 
-  func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+  func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
 
-    return MatchedTransitionAnimator(isPresented: true)
+    return nil
   }
 
   func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
 
     return interactor.hasStarted ? interactor : nil
-  }
-
-  func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-
-    return nil
   }
 
   func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {

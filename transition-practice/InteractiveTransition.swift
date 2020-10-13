@@ -36,8 +36,8 @@ class InteractiveTransition: NSObject, UIViewControllerInteractiveTransitioning,
 
     self.currentTransitionContext = transitionContext
 
-//    let fromViewController = transitionContext.viewController(forKey: .from) as! UIViewController & InteractiveTransitionType
-    let fromViewController = targetViewController!
+    let fromViewController = transitionContext.viewController(forKey: .from) as! UIViewController & InteractiveTransitionType
+//    let fromViewController = targetViewController!
     let toViewController = (transitionContext.viewController(forKey: .to) as! UINavigationController).topViewController as! UIViewController & InteractiveTransitionType
 
     let snapshotSourceView: UIView = fromViewController.bodyView.snapshotView(afterScreenUpdates: true)!

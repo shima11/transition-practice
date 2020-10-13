@@ -19,10 +19,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     window = UIWindow(frame: UIScreen.main.bounds)
 
     let viewContorller = ViewController(nibName: nil, bundle: nil)
+    viewContorller.title = "fitst"
     let navigationController = UINavigationController(rootViewController: viewContorller)
 
+    let secondViewContorller = SecondViewController(nibName: nil, bundle: nil)
+    secondViewContorller.title = "second"
+    let secondNavigationController = UINavigationController(rootViewController: secondViewContorller)
+
+
     let tabBarController = MainTabBarController(nibName: nil, bundle: nil)
-    tabBarController.setViewControllers([navigationController], animated: false)
+    tabBarController.setViewControllers([navigationController, secondNavigationController], animated: false)
 
     window?.rootViewController = tabBarController
     window?.makeKeyAndVisible()
