@@ -16,21 +16,15 @@ class SecondViewController: UIViewController {
 
     view.backgroundColor = .white
 
-    if #available(iOS 13.0, *) {
+    if #available(iOS 14.0, *) {
 
-      let action = UIAction.init(handler: { [weak self] (action) in
+      let button = UIButton(primaryAction: .init(title: "present", handler: { [weak self] _ in
         let _controller = SecondDetailViewController()
         let controller = UINavigationController(rootViewController: _controller)
         controller.modalPresentationStyle = .overFullScreen
         controller.transitioningDelegate = _controller
         self?.present(controller, animated: true, completion: nil)
-      })
-
-      let button = UIButton()
-      if #available(iOS 14.0, *) {
-        button.addAction(action, for: .touchUpInside)
-      }
-      button.setTitle("present", for: .normal)
+      }))
       button.setTitleColor(.darkText, for: .normal)
       button.sizeToFit()
 
@@ -41,9 +35,7 @@ class SecondViewController: UIViewController {
         CenterY()
       )
     }
-
   }
-
 }
 
 
@@ -78,12 +70,15 @@ class SecondDetailViewController: UIViewController {
 
     let edgePanGesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(self.handleSwipeFromLeft))
     edgePanGesture.edges = .left
-    view.addGestureRecognizer(edgePanGesture)
 
     let pullDownGesture = UIPanGestureRecognizer(target: self, action: #selector(self.handlePullDown(_:)))
+
+    pullDownGesture.require(toFail: edgePanGesture)
+
+    view.addGestureRecognizer(edgePanGesture)
     view.addGestureRecognizer(pullDownGesture)
 
-    edgePanGesture.require(toFail: pullDownGesture)
+//    scrollView.panGestureRecognizer.require(toFail: edgePanGesture)
 
     if #available(iOS 14.0, *) {
       let button = UIButton(primaryAction: .init(title: "Dismiss", handler: { [unowned self] (action) in
@@ -102,14 +97,18 @@ class SecondDetailViewController: UIViewController {
     pullToDismissAnimator = nil
   }
 
-  var edgeSwipeDismissAnimator: UIViewPropertyAnimator?
-  var pullToDismissAnimator: UIViewPropertyAnimator?
+  private var edgeSwipeDismissAnimator: UIViewPropertyAnimator?
+  private var pullToDismissAnimator: UIViewPropertyAnimator?
+
+  private var isEdgeSwipeDismiss: Bool = false
+  private var isPullToDismiss: Bool = false
 
   @objc func handleSwipeFromLeft(_ gesture: UIPanGestureRecognizer) {
 
     func progress() -> CGFloat? {
 
       guard let targetView = interactiveTransitionContext?.viewController(forKey: .from)?.view else {
+        assertionFailure()
         return nil
       }
       return gesture.translation(in: targetView).x / targetView.bounds.width
@@ -119,21 +118,25 @@ class SecondDetailViewController: UIViewController {
     case .began:
 
       isInteractiveDismiss = true
+      isEdgeSwipeDismiss = true
 
       self.dismiss(animated: true, completion: nil)
 
     case .changed:
 
       if let progress = progress() {
+        print("xxx", progress)
         edgeSwipeDismissAnimator!.fractionComplete = progress
       }
 
     case .ended, .cancelled, .failed:
 
       isInteractiveDismiss = false
+      isEdgeSwipeDismiss = false
 
       guard let dismissalAnimator = edgeSwipeDismissAnimator else {
         didCancelDismissalTransition()
+        gesture.isEnabled = true
         return
       }
 
@@ -182,21 +185,25 @@ class SecondDetailViewController: UIViewController {
     case .began:
 
       isInteractiveDismiss = true
+      isPullToDismiss = true
 
       self.dismiss(animated: true, completion: nil)
 
     case .changed:
 
       if let progress = progress() {
+        print("yyy", progress)
         pullToDismissAnimator!.fractionComplete = progress
       }
 
     case .ended, .cancelled, .failed:
 
       isInteractiveDismiss = false
+      isPullToDismiss = false
 
       guard let dismissalAnimator = pullToDismissAnimator else {
         didCancelDismissalTransition()
+        gesture.isEnabled = true
         return
       }
 
@@ -244,19 +251,28 @@ extension SecondDetailViewController: UIViewControllerInteractiveTransitioning {
       return
     }
 
-    let edgeSwipeDismissAnimator = UIViewPropertyAnimator(duration: 0.3, dampingRatio: 1, animations: {
-      targetView.view.transform = .init(translationX: targetView.view.bounds.width, y: 0)
-    })
-    edgeSwipeDismissAnimator.isReversed = false
-    edgeSwipeDismissAnimator.pauseAnimation()
-    self.edgeSwipeDismissAnimator = edgeSwipeDismissAnimator
+    switch (isPullToDismiss, isEdgeSwipeDismiss) {
+    case (true, false):
 
-    let pullToDismissAnimator = UIViewPropertyAnimator(duration: 0.3, dampingRatio: 1, animations: {
-      targetView.view.transform = .init(translationX: 0, y: targetView.view.bounds.height)
-    })
-    pullToDismissAnimator.isReversed = false
-    pullToDismissAnimator.pauseAnimation()
-    self.pullToDismissAnimator = pullToDismissAnimator
+      let pullToDismissAnimator = UIViewPropertyAnimator(duration: 0.3, dampingRatio: 1, animations: {
+        targetView.view.transform = .init(translationX: 0, y: targetView.view.bounds.height)
+      })
+      pullToDismissAnimator.isReversed = false
+      pullToDismissAnimator.pauseAnimation()
+      self.pullToDismissAnimator = pullToDismissAnimator
+
+    case (false, true):
+
+      let edgeSwipeDismissAnimator = UIViewPropertyAnimator(duration: 0.3, dampingRatio: 1, animations: {
+        targetView.view.transform = .init(translationX: targetView.view.bounds.width, y: 0)
+      })
+      edgeSwipeDismissAnimator.isReversed = false
+      edgeSwipeDismissAnimator.pauseAnimation()
+      self.edgeSwipeDismissAnimator = edgeSwipeDismissAnimator
+
+    default:
+      break
+    }
 
   }
 }
