@@ -19,7 +19,10 @@ class SecondViewController: UIViewController {
     if #available(iOS 13.0, *) {
 
       let action = UIAction.init(handler: { [weak self] (action) in
-        let controller = SecondDetailViewController()
+        let _controller = SecondDetailViewController()
+        let controller = UINavigationController(rootViewController: _controller)
+        controller.modalPresentationStyle = .overFullScreen
+        controller.transitioningDelegate = _controller
         self?.present(controller, animated: true, completion: nil)
       })
 
@@ -47,6 +50,7 @@ class SecondViewController: UIViewController {
 // https://github.com/aunnnn/AppStoreiOS11InteractiveTransition
 // https://github.com/alberdev/CiaoTransitions
 // https://github.com/SebastianBoldt/Jelly
+// https://github.com/cocoatoucher/AICustomViewControllerTransition
 
 class SecondDetailViewController: UIViewController {
 
@@ -58,7 +62,6 @@ class SecondDetailViewController: UIViewController {
 
     super.init(nibName: nil, bundle: nil)
 
-    modalPresentationStyle = .overFullScreen
   }
 
   required init?(coder: NSCoder) {
@@ -68,13 +71,18 @@ class SecondDetailViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    // TODO: Pull To Bottom で閉じれるようにする
+
+    // TODO: ScrollViewがある状態での pull to bottomを実装
+
     view.backgroundColor = .systemBlue
+    navigationController?.navigationBar.barTintColor = .systemGreen
 
     let left = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(self.handleSwipeFromLeft))
     left.edges = .left
     view.addGestureRecognizer(left)
 
-    transitioningDelegate = self
+//    transitioningDelegate = self
 
     if #available(iOS 14.0, *) {
       let button = UIButton(primaryAction: .init(title: "Dismiss", handler: { [unowned self] (action) in
@@ -103,7 +111,8 @@ class SecondDetailViewController: UIViewController {
 //    let isScreenEdgePan = true
     //      let canStartDragDownToDismissPan = !isScreenEdgePan && !draggingDownToDismiss
 
-    let targetAnimatedView = gesture.view!
+//    let targetAnimatedView = gesture.view!
+
     let startingPoint: CGPoint
 
     if let p = interactiveStartingPoint {
@@ -113,30 +122,42 @@ class SecondDetailViewController: UIViewController {
       interactiveStartingPoint = startingPoint
     }
 
-    let progress = gesture.translation(in: targetAnimatedView).x / targetAnimatedView.bounds.width
+//    let progress = gesture.translation(in: targetAnimatedView).x / targetAnimatedView.bounds.width
 
-    func createInteractiveDismissalAnimatorIfNeeded() -> UIViewPropertyAnimator {
-      if let animator = dismissalAnimator {
-        return animator
-      } else {
-        let animator = UIViewPropertyAnimator(duration: 0.3, dampingRatio: 1, animations: {
-          targetAnimatedView.transform = .init(translationX: targetAnimatedView.bounds.width, y: 0)
-        })
-        animator.isReversed = false
-        animator.pauseAnimation()
-        animator.fractionComplete = progress
-        return animator
-      }
-    }
+//    func createInteractiveDismissalAnimatorIfNeeded() -> UIViewPropertyAnimator {
+//      if let animator = dismissalAnimator {
+//        return animator
+//      } else {
+//        let animator = UIViewPropertyAnimator(duration: 0.3, dampingRatio: 1, animations: {
+//          targetAnimatedView.transform = .init(translationX: targetAnimatedView.bounds.width, y: 0)
+//        })
+//        animator.isReversed = false
+//        animator.pauseAnimation()
+//        animator.fractionComplete = progress
+//        return animator
+//      }
+//    }
 
     switch gesture.state {
     case .began:
+
       isInteractiveDismiss = true
+
       self.dismiss(animated: true, completion: nil)
 
-      dismissalAnimator = createInteractiveDismissalAnimatorIfNeeded()
+//      let targetView = interactiveTransitionContext!.viewController(forKey: .from)!.view
+      let animator = UIViewPropertyAnimator(duration: 0.3, dampingRatio: 1, animations: {
+//        targetView!.transform = .init(translationX: targetView!.bounds.width, y: 0)
+        self.navigationController?.view.transform = .init(translationX: self.navigationController!.view.bounds.width, y: 0)
+      })
+      animator.isReversed = false
+      animator.pauseAnimation()
+      dismissalAnimator = animator
 
     case .changed:
+
+      let targetView = interactiveTransitionContext!.viewController(forKey: .from)!.view
+      let progress = gesture.translation(in: targetView).x / targetView!.bounds.width
 
       dismissalAnimator!.fractionComplete = progress
 
@@ -150,6 +171,9 @@ class SecondDetailViewController: UIViewController {
       }
 
       dismissalAnimator.pauseAnimation()
+
+      let targetView = interactiveTransitionContext!.viewController(forKey: .from)!.view
+      let progress = gesture.translation(in: targetView).x / targetView!.bounds.width
 
       if progress > 0.5 {
 
