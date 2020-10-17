@@ -44,6 +44,10 @@ class SecondViewController: UIViewController {
 }
 
 
+// https://github.com/aunnnn/AppStoreiOS11InteractiveTransition
+// https://github.com/alberdev/CiaoTransitions
+// https://github.com/SebastianBoldt/Jelly
+
 class SecondDetailViewController: UIViewController {
 
   fileprivate var isInteractiveDismiss: Bool = false
@@ -90,11 +94,6 @@ class SecondDetailViewController: UIViewController {
 //      draggingDownToDismiss = false
   }
 
-  func didSuccessfullyDragDownToDismiss() {
-//      cardViewModel = unhighlightedCardViewModel
-    dismiss(animated: true)
-  }
-
   var interactiveStartingPoint: CGPoint?
   var dismissalAnimator: UIViewPropertyAnimator?
 
@@ -120,7 +119,7 @@ class SecondDetailViewController: UIViewController {
       if let animator = dismissalAnimator {
         return animator
       } else {
-        let animator = UIViewPropertyAnimator(duration: 0, curve: .linear, animations: {
+        let animator = UIViewPropertyAnimator(duration: 0.3, dampingRatio: 1, animations: {
           targetAnimatedView.transform = .init(translationX: targetAnimatedView.bounds.width, y: 0)
         })
         animator.isReversed = false
@@ -217,7 +216,18 @@ class DismissMenuAnimator: NSObject, UIViewControllerAnimatedTransitioning {
   }
 
   func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-    
-    transitionContext.completeTransition(true)
+
+    guard let fromVC = transitionContext.viewController(forKey: .from) else {
+      transitionContext.completeTransition(false)
+      return
+    }
+
+    let animator = UIViewPropertyAnimator(duration: 0.3, dampingRatio: 1, animations: {
+      fromVC.view.transform = .init(translationX: 0, y: fromVC.view.bounds.height)
+    })
+    animator.addCompletion { (position) in
+      transitionContext.completeTransition(true)
+    }
+    animator.startAnimation()
   }
 }
