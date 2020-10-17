@@ -70,50 +70,115 @@ class SecondDetailViewController: UIViewController {
     left.edges = .left
     view.addGestureRecognizer(left)
 
-
     transitioningDelegate = self
+
+    if #available(iOS 14.0, *) {
+      let button = UIButton(primaryAction: .init(title: "Dismiss", handler: { [unowned self] (action) in
+        self.dismiss(animated: true, completion: nil)
+      }))
+      button.setTitleColor(.darkText, for: .normal)
+      button.sizeToFit()
+      button.center = view.center
+      view.addSubview(button)
+    }
+
   }
 
-  @objc func handleSwipeFromLeft(_ recognizer: UIScreenEdgePanGestureRecognizer) {
+  func didCancelDismissalTransition() {
+    interactiveStartingPoint = nil
+    dismissalAnimator = nil
+//      draggingDownToDismiss = false
+  }
 
-    switch recognizer.state {
+  func didSuccessfullyDragDownToDismiss() {
+//      cardViewModel = unhighlightedCardViewModel
+    dismiss(animated: true)
+  }
+
+  var interactiveStartingPoint: CGPoint?
+  var dismissalAnimator: UIViewPropertyAnimator?
+
+  @objc func handleSwipeFromLeft(_ gesture: UIPanGestureRecognizer) {
+
+    //      let isScreenEdgePan = gesture.isKind(of: DismissalScreenEdgePanGesture.self)
+//    let isScreenEdgePan = true
+    //      let canStartDragDownToDismissPan = !isScreenEdgePan && !draggingDownToDismiss
+
+    let targetAnimatedView = gesture.view!
+    let startingPoint: CGPoint
+
+    if let p = interactiveStartingPoint {
+      startingPoint = p
+    } else {
+      startingPoint = gesture.location(in: nil)
+      interactiveStartingPoint = startingPoint
+    }
+
+    let progress = gesture.translation(in: targetAnimatedView).x / targetAnimatedView.bounds.width
+
+    func createInteractiveDismissalAnimatorIfNeeded() -> UIViewPropertyAnimator {
+      if let animator = dismissalAnimator {
+        return animator
+      } else {
+        let animator = UIViewPropertyAnimator(duration: 0, curve: .linear, animations: {
+          targetAnimatedView.transform = .init(translationX: targetAnimatedView.bounds.width, y: 0)
+        })
+        animator.isReversed = false
+        animator.pauseAnimation()
+        animator.fractionComplete = progress
+        return animator
+      }
+    }
+
+    switch gesture.state {
     case .began:
       isInteractiveDismiss = true
       self.dismiss(animated: true, completion: nil)
 
+      dismissalAnimator = createInteractiveDismissalAnimatorIfNeeded()
+
     case .changed:
 
-      print(recognizer.translation(in: recognizer.view), recognizer.velocity(in: recognizer.view))
+      dismissalAnimator!.fractionComplete = progress
 
-      let view = interactiveTransitionContext?.view(forKey: .from)
-      let alpha = (200 - recognizer.translation(in: recognizer.view).x) / 200
-      view?.alpha = alpha
-      print("alpha:", alpha)
+    case .ended, .cancelled, .failed:
 
-    case .cancelled, .failed:
-      isInteractiveDismiss = false
-      let view = interactiveTransitionContext?.view(forKey: .from)
-      view?.alpha = 1
-      interactiveTransitionContext?.completeTransition(false)
-
-    case .ended:
       isInteractiveDismiss = false
 
-      let alpha = (200 - recognizer.translation(in: recognizer.view).x) / 200
-      if alpha > 0.5 {
-        let view = interactiveTransitionContext?.view(forKey: .from)
-        view?.alpha = 1
-        interactiveTransitionContext?.completeTransition(false)
-      } else {
-        interactiveTransitionContext?.completeTransition(true)
+      guard let dismissalAnimator = dismissalAnimator else {
+        didCancelDismissalTransition()
+        return
       }
 
-    case .possible:
-      break
-    @unknown default:
-      break
+      dismissalAnimator.pauseAnimation()
+
+      if progress > 0.5 {
+
+        dismissalAnimator.isReversed = false
+        dismissalAnimator.addCompletion { [unowned self] (pos) in
+          self.interactiveTransitionContext?.completeTransition(true)
+          gesture.isEnabled = true
+        }
+
+      } else {
+
+        dismissalAnimator.isReversed = true
+        dismissalAnimator.addCompletion { [unowned self] (pos) in
+          self.didCancelDismissalTransition()
+          self.interactiveTransitionContext?.completeTransition(false)
+          gesture.isEnabled = true
+        }
+      }
+
+      gesture.isEnabled = false
+
+      dismissalAnimator.startAnimation()
+
+    default:
+      fatalError("Impossible gesture state? \(gesture.state.rawValue)")
     }
   }
+
 }
 
 extension SecondDetailViewController: UIViewControllerInteractiveTransitioning {
@@ -152,7 +217,7 @@ class DismissMenuAnimator: NSObject, UIViewControllerAnimatedTransitioning {
   }
 
   func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-
+    
     transitionContext.completeTransition(true)
   }
 }
