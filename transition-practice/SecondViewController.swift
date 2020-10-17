@@ -111,8 +111,6 @@ class SecondDetailViewController: UIViewController {
 //    let isScreenEdgePan = true
     //      let canStartDragDownToDismissPan = !isScreenEdgePan && !draggingDownToDismiss
 
-//    let targetAnimatedView = gesture.view!
-
     let startingPoint: CGPoint
 
     if let p = interactiveStartingPoint {
@@ -122,21 +120,13 @@ class SecondDetailViewController: UIViewController {
       interactiveStartingPoint = startingPoint
     }
 
-//    let progress = gesture.translation(in: targetAnimatedView).x / targetAnimatedView.bounds.width
+    func progress() -> CGFloat? {
 
-//    func createInteractiveDismissalAnimatorIfNeeded() -> UIViewPropertyAnimator {
-//      if let animator = dismissalAnimator {
-//        return animator
-//      } else {
-//        let animator = UIViewPropertyAnimator(duration: 0.3, dampingRatio: 1, animations: {
-//          targetAnimatedView.transform = .init(translationX: targetAnimatedView.bounds.width, y: 0)
-//        })
-//        animator.isReversed = false
-//        animator.pauseAnimation()
-//        animator.fractionComplete = progress
-//        return animator
-//      }
-//    }
+      guard let targetView = interactiveTransitionContext?.viewController(forKey: .from)?.view else {
+        return nil
+      }
+      return gesture.translation(in: targetView).x / targetView.bounds.width
+    }
 
     switch gesture.state {
     case .began:
@@ -145,21 +135,11 @@ class SecondDetailViewController: UIViewController {
 
       self.dismiss(animated: true, completion: nil)
 
-//      let targetView = interactiveTransitionContext!.viewController(forKey: .from)!.view
-      let animator = UIViewPropertyAnimator(duration: 0.3, dampingRatio: 1, animations: {
-//        targetView!.transform = .init(translationX: targetView!.bounds.width, y: 0)
-        self.navigationController?.view.transform = .init(translationX: self.navigationController!.view.bounds.width, y: 0)
-      })
-      animator.isReversed = false
-      animator.pauseAnimation()
-      dismissalAnimator = animator
-
     case .changed:
 
-      let targetView = interactiveTransitionContext!.viewController(forKey: .from)!.view
-      let progress = gesture.translation(in: targetView).x / targetView!.bounds.width
-
-      dismissalAnimator!.fractionComplete = progress
+      if let progress = progress() {
+        dismissalAnimator!.fractionComplete = progress
+      }
 
     case .ended, .cancelled, .failed:
 
@@ -172,10 +152,7 @@ class SecondDetailViewController: UIViewController {
 
       dismissalAnimator.pauseAnimation()
 
-      let targetView = interactiveTransitionContext!.viewController(forKey: .from)!.view
-      let progress = gesture.translation(in: targetView).x / targetView!.bounds.width
-
-      if progress > 0.5 {
+      if progress()! > 0.5 {
 
         dismissalAnimator.isReversed = false
         dismissalAnimator.addCompletion { [unowned self] (pos) in
@@ -209,6 +186,17 @@ extension SecondDetailViewController: UIViewControllerInteractiveTransitioning {
   func startInteractiveTransition(_ transitionContext: UIViewControllerContextTransitioning) {
 
     interactiveTransitionContext = transitionContext
+
+    guard let targetView = transitionContext.viewController(forKey: .from) else {
+      assertionFailure()
+      return
+    }
+    let animator = UIViewPropertyAnimator(duration: 0.3, dampingRatio: 1, animations: {
+      targetView.view.transform = .init(translationX: targetView.view.bounds.width, y: 0)
+    })
+    animator.isReversed = false
+    animator.pauseAnimation()
+    dismissalAnimator = animator
   }
 }
 
@@ -236,7 +224,7 @@ extension SecondDetailViewController: UIViewControllerTransitioningDelegate {
 class DismissMenuAnimator: NSObject, UIViewControllerAnimatedTransitioning {
 
   func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-    return 0.6
+    return 0.3
   }
 
   func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
