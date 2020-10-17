@@ -71,18 +71,19 @@ class SecondDetailViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    // TODO: Pull To Bottom で閉じれるようにする
-
     // TODO: ScrollViewがある状態での pull to bottomを実装
 
     view.backgroundColor = .systemBlue
     navigationController?.navigationBar.barTintColor = .systemGreen
 
-    let left = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(self.handleSwipeFromLeft))
-    left.edges = .left
-    view.addGestureRecognizer(left)
+    let edgePanGesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(self.handleSwipeFromLeft))
+    edgePanGesture.edges = .left
+    view.addGestureRecognizer(edgePanGesture)
 
-//    transitioningDelegate = self
+    let pullDownGesture = UIPanGestureRecognizer(target: self, action: #selector(self.handlePullDown(_:)))
+    view.addGestureRecognizer(pullDownGesture)
+
+    edgePanGesture.require(toFail: pullDownGesture)
 
     if #available(iOS 14.0, *) {
       let button = UIButton(primaryAction: .init(title: "Dismiss", handler: { [unowned self] (action) in
@@ -97,28 +98,14 @@ class SecondDetailViewController: UIViewController {
   }
 
   func didCancelDismissalTransition() {
-    interactiveStartingPoint = nil
-    dismissalAnimator = nil
-//      draggingDownToDismiss = false
+    edgeSwipeDismissAnimator = nil
+    pullToDismissAnimator = nil
   }
 
-  var interactiveStartingPoint: CGPoint?
-  var dismissalAnimator: UIViewPropertyAnimator?
+  var edgeSwipeDismissAnimator: UIViewPropertyAnimator?
+  var pullToDismissAnimator: UIViewPropertyAnimator?
 
   @objc func handleSwipeFromLeft(_ gesture: UIPanGestureRecognizer) {
-
-    //      let isScreenEdgePan = gesture.isKind(of: DismissalScreenEdgePanGesture.self)
-//    let isScreenEdgePan = true
-    //      let canStartDragDownToDismissPan = !isScreenEdgePan && !draggingDownToDismiss
-
-    let startingPoint: CGPoint
-
-    if let p = interactiveStartingPoint {
-      startingPoint = p
-    } else {
-      startingPoint = gesture.location(in: nil)
-      interactiveStartingPoint = startingPoint
-    }
 
     func progress() -> CGFloat? {
 
@@ -138,19 +125,84 @@ class SecondDetailViewController: UIViewController {
     case .changed:
 
       if let progress = progress() {
-        dismissalAnimator!.fractionComplete = progress
+        edgeSwipeDismissAnimator!.fractionComplete = progress
       }
 
     case .ended, .cancelled, .failed:
 
       isInteractiveDismiss = false
 
-      guard let dismissalAnimator = dismissalAnimator else {
+      guard let dismissalAnimator = edgeSwipeDismissAnimator else {
         didCancelDismissalTransition()
         return
       }
 
       dismissalAnimator.pauseAnimation()
+
+      // TODO: progressとvelocityを考慮してdismiss判定
+
+      if progress()! > 0.5 {
+
+        dismissalAnimator.isReversed = false
+        dismissalAnimator.addCompletion { [unowned self] (pos) in
+          self.interactiveTransitionContext?.completeTransition(true)
+          gesture.isEnabled = true
+        }
+
+      } else {
+
+        dismissalAnimator.isReversed = true
+        dismissalAnimator.addCompletion { [unowned self] (pos) in
+          self.didCancelDismissalTransition()
+          self.interactiveTransitionContext?.completeTransition(false)
+          gesture.isEnabled = true
+        }
+      }
+
+      gesture.isEnabled = false
+
+      dismissalAnimator.startAnimation()
+
+    default:
+      fatalError("Impossible gesture state? \(gesture.state.rawValue)")
+    }
+  }
+
+  @objc func handlePullDown(_ gesture: UIPanGestureRecognizer) {
+
+    func progress() -> CGFloat? {
+
+      guard let targetView = interactiveTransitionContext?.viewController(forKey: .from)?.view else {
+        return nil
+      }
+      return gesture.translation(in: targetView).y / targetView.bounds.height
+    }
+
+    switch gesture.state {
+    case .began:
+
+      isInteractiveDismiss = true
+
+      self.dismiss(animated: true, completion: nil)
+
+    case .changed:
+
+      if let progress = progress() {
+        pullToDismissAnimator!.fractionComplete = progress
+      }
+
+    case .ended, .cancelled, .failed:
+
+      isInteractiveDismiss = false
+
+      guard let dismissalAnimator = pullToDismissAnimator else {
+        didCancelDismissalTransition()
+        return
+      }
+
+      dismissalAnimator.pauseAnimation()
+
+      // TODO: progressとvelocityを考慮してdismiss判定
 
       if progress()! > 0.5 {
 
@@ -191,12 +243,21 @@ extension SecondDetailViewController: UIViewControllerInteractiveTransitioning {
       assertionFailure()
       return
     }
-    let animator = UIViewPropertyAnimator(duration: 0.3, dampingRatio: 1, animations: {
+
+    let edgeSwipeDismissAnimator = UIViewPropertyAnimator(duration: 0.3, dampingRatio: 1, animations: {
       targetView.view.transform = .init(translationX: targetView.view.bounds.width, y: 0)
     })
-    animator.isReversed = false
-    animator.pauseAnimation()
-    dismissalAnimator = animator
+    edgeSwipeDismissAnimator.isReversed = false
+    edgeSwipeDismissAnimator.pauseAnimation()
+    self.edgeSwipeDismissAnimator = edgeSwipeDismissAnimator
+
+    let pullToDismissAnimator = UIViewPropertyAnimator(duration: 0.3, dampingRatio: 1, animations: {
+      targetView.view.transform = .init(translationX: 0, y: targetView.view.bounds.height)
+    })
+    pullToDismissAnimator.isReversed = false
+    pullToDismissAnimator.pauseAnimation()
+    self.pullToDismissAnimator = pullToDismissAnimator
+
   }
 }
 
