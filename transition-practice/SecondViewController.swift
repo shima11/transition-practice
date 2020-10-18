@@ -34,6 +34,21 @@ class SecondViewController: UIViewController {
         CenterX(),
         CenterY()
       )
+
+      do {
+
+        let button = UIButton(primaryAction: .init(title: "Push", handler: { [unowned self] (action) in
+          let controller = UIViewController()
+          controller.view.backgroundColor = .white
+          self.navigationController?.pushViewController(controller, animated: true)
+        }))
+        button.setTitleColor(.darkText, for: .normal)
+        button.sizeToFit()
+        button.center = .init(x: view.center.x, y: view.center.y + 100)
+        view.addSubview(button)
+
+      }
+
     }
   }
 }
@@ -88,6 +103,21 @@ class SecondDetailViewController: UIViewController {
       button.sizeToFit()
       button.center = view.center
       view.addSubview(button)
+
+
+      do {
+
+        let button = UIButton(primaryAction: .init(title: "Push", handler: { [unowned self] (action) in
+          let controller = UIViewController()
+          controller.view.backgroundColor = .white
+          self.navigationController?.pushViewController(controller, animated: true)
+        }))
+        button.setTitleColor(.darkText, for: .normal)
+        button.sizeToFit()
+        button.center = .init(x: view.center.x, y: view.center.y + 100)
+        view.addSubview(button)
+
+      }
     }
 
   }
