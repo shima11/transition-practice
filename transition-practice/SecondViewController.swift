@@ -93,7 +93,17 @@ class SecondDetailViewController: UIViewController {
     view.addGestureRecognizer(edgePanGesture)
     view.addGestureRecognizer(pullDownGesture)
 
+
+    let scrollView = UIScrollView()
+    scrollView.alwaysBounceVertical = true
+    view.addSubview(scrollView)
+    scrollView.easy.layout(Edges())
+
 //    scrollView.panGestureRecognizer.require(toFail: edgePanGesture)
+//    scrollView.panGestureRecognizer.require(toFail: pullDownGesture)
+
+    // ScrollViewのScrollをハンドリングしてdismissを呼ばないといけないかもしれない
+    
 
     if #available(iOS 14.0, *) {
       let button = UIButton(primaryAction: .init(title: "Dismiss", handler: { [unowned self] (action) in
@@ -102,7 +112,7 @@ class SecondDetailViewController: UIViewController {
       button.setTitleColor(.darkText, for: .normal)
       button.sizeToFit()
       button.center = view.center
-      view.addSubview(button)
+      scrollView.addSubview(button)
 
 
       do {
@@ -115,7 +125,7 @@ class SecondDetailViewController: UIViewController {
         button.setTitleColor(.darkText, for: .normal)
         button.sizeToFit()
         button.center = .init(x: view.center.x, y: view.center.y + 100)
-        view.addSubview(button)
+        scrollView.addSubview(button)
 
       }
     }
