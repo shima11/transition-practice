@@ -96,6 +96,7 @@ class SecondDetailViewController: UIViewController {
 
     let scrollView = UIScrollView()
     scrollView.alwaysBounceVertical = true
+    scrollView.delegate = self
     view.addSubview(scrollView)
     scrollView.easy.layout(Edges())
 
@@ -106,6 +107,7 @@ class SecondDetailViewController: UIViewController {
     
 
     if #available(iOS 14.0, *) {
+
       let button = UIButton(primaryAction: .init(title: "Dismiss", handler: { [unowned self] (action) in
         self.dismiss(animated: true, completion: nil)
       }))
@@ -113,7 +115,6 @@ class SecondDetailViewController: UIViewController {
       button.sizeToFit()
       button.center = view.center
       scrollView.addSubview(button)
-
 
       do {
 
@@ -213,6 +214,12 @@ class SecondDetailViewController: UIViewController {
 
   @objc func handlePullDown(_ gesture: UIPanGestureRecognizer) {
 
+    hoge(gesture: gesture)
+  }
+
+
+  func hoge(gesture: UIPanGestureRecognizer) {
+
     func progress() -> CGFloat? {
 
       guard let targetView = interactiveTransitionContext?.viewController(forKey: .from)?.view else {
@@ -274,10 +281,20 @@ class SecondDetailViewController: UIViewController {
       dismissalAnimator.startAnimation()
 
     default:
-      fatalError("Impossible gesture state? \(gesture.state.rawValue)")
+      break
+//      fatalError("Impossible gesture state? \(gesture.state.rawValue)")
     }
-  }
 
+  }
+}
+
+extension SecondDetailViewController: UIScrollViewDelegate {
+
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+
+    hoge(gesture: scrollView.panGestureRecognizer)
+
+  }
 }
 
 extension SecondDetailViewController: UIViewControllerInteractiveTransitioning {
