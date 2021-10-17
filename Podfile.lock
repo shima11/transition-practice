@@ -7,7 +7,7 @@ DEPENDENCIES:
   - Reveal-SDK
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - EasyPeasy
     - Reveal-SDK
 
@@ -17,4 +17,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: bbefda9f734550ec11eaa3eb7cc0cbe9b9bef106
 
-COCOAPODS: 1.7.5
+COCOAPODS: 1.11.2
