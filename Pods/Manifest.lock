@@ -1,6 +1,6 @@
 PODS:
-  - EasyPeasy (1.9.0)
-  - Reveal-SDK (24)
+  - EasyPeasy (1.10.0)
+  - Reveal-SDK (31)
 
 DEPENDENCIES:
   - EasyPeasy
@@ -12,8 +12,8 @@ SPEC REPOS:
     - Reveal-SDK
 
 SPEC CHECKSUMS:
-  EasyPeasy: 19a84ef8f8bbcf925b9fecc29d1d78b7dab96718
-  Reveal-SDK: 5d7e56b8f018c0a88b3a2c10bf68d598bbd3b071
+  EasyPeasy: b9b1bae024d21a7dfa9bad26d6826d88348cc6f1
+  Reveal-SDK: 62ae124d57732c4fe7e88635274ca24054dd2d29
 
 PODFILE CHECKSUM: bbefda9f734550ec11eaa3eb7cc0cbe9b9bef106
 

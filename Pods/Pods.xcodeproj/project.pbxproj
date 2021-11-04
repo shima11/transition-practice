@@ -9,8 +9,9 @@
 /* Begin PBXAggregateTarget section */
 		DD0B0FC4388FC5A75BAC950EECAB2864 /* Reveal-SDK */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 676F4BB658125F19314000817E9BFB9D /* Build configuration list for PBXAggregateTarget "Reveal-SDK" */;
+			buildConfigurationList = 2DC0A92B3E67DD8CE549653070680133 /* Build configuration list for PBXAggregateTarget "Reveal-SDK" */;
 			buildPhases = (
+				71FA33C24C5981C5B3699F790DC7A1FF /* [CP] Copy XCFrameworks */,
 			);
 			dependencies = (
 			);
@@ -73,6 +74,7 @@
 		1FE4147D9BEA3617C63C7E64721C6D09 /* PositionAttribute.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PositionAttribute.swift; path = EasyPeasy/PositionAttribute.swift; sourceTree = "<group>"; };
 		2061435BD4F26D5DFA582FFDA85EA3CD /* UIView+Easy.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIView+Easy.swift"; path = "EasyPeasy/UIView+Easy.swift"; sourceTree = "<group>"; };
 		226A1FC5345CB5D607CE82E52258C252 /* Attribute.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Attribute.swift; path = EasyPeasy/Attribute.swift; sourceTree = "<group>"; };
+		293F0A857831545EB98E02A25BC8F45F /* RevealServer.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = RevealServer.xcframework; path = RevealServer/RevealServer.xcframework; sourceTree = "<group>"; };
 		35EB50A344A19F36149D73AC0C4519B5 /* CompoundAttribute.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CompoundAttribute.swift; path = EasyPeasy/CompoundAttribute.swift; sourceTree = "<group>"; };
 		3D379C0FF7144897D7524EBBEECFEB10 /* DimensionAttribute+UIKit.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "DimensionAttribute+UIKit.swift"; path = "EasyPeasy/DimensionAttribute+UIKit.swift"; sourceTree = "<group>"; };
 		3D9E5972FC7D4615F85FEB62071891AB /* Pods-transition-practice-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-transition-practice-acknowledgements.plist"; sourceTree = "<group>"; };
@@ -82,12 +84,9 @@
 		57DE7C9E6496017C1F9FF81B6D009A12 /* UILayoutGuide+Easy.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UILayoutGuide+Easy.swift"; path = "EasyPeasy/UILayoutGuide+Easy.swift"; sourceTree = "<group>"; };
 		596E5C7AC4385F73EB413C7A6CAE98E5 /* Pods-transition-practice */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-transition-practice"; path = Pods_transition_practice.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C3371104FFAB6F64C97A1BB8F46CB47 /* Node.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Node.swift; path = EasyPeasy/Node.swift; sourceTree = "<group>"; };
-		5F165632959A8F85683CD05B9ED9BA6A /* Reveal-SDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Reveal-SDK.release.xcconfig"; sourceTree = "<group>"; };
 		60449E10678CDEA98A0F32CB654D108B /* EasyPeasy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = EasyPeasy.debug.xcconfig; sourceTree = "<group>"; };
-		63E3B8F99FECA3496820EDFB8DD0D9A8 /* Reveal-SDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Reveal-SDK.debug.xcconfig"; sourceTree = "<group>"; };
 		6CBD2FA39F681C8FED79CF39C3D8E8E3 /* Item+UIKit.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Item+UIKit.swift"; path = "EasyPeasy/Item+UIKit.swift"; sourceTree = "<group>"; };
 		6CDECB0DFD5C78A2D789E1C42E87A621 /* PositionAttribute+AppKit.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "PositionAttribute+AppKit.swift"; path = "EasyPeasy/PositionAttribute+AppKit.swift"; sourceTree = "<group>"; };
-		6D965B9B984A51CF15B9B25BC132EBD5 /* RevealServer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RevealServer.framework; path = RevealServer/iOS/RevealServer.framework; sourceTree = "<group>"; };
 		73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		77041519883A4DF21B2E8D80CBCF39BE /* Item.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Item.swift; path = EasyPeasy/Item.swift; sourceTree = "<group>"; };
 		8328E6FCAC1E4D4E635FEAE69D63A19E /* EasyPeasy */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = EasyPeasy; path = EasyPeasy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -102,7 +101,9 @@
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A15474AE9E8925A68D88443D0D1C0746 /* EasyPeasy-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "EasyPeasy-Info.plist"; sourceTree = "<group>"; };
 		A40E6D185184A830F5D18D916702B01E /* Pods-transition-practice-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-transition-practice-Info.plist"; sourceTree = "<group>"; };
+		AE9852BFC042CFA320B8A7D35C05E30F /* Reveal-SDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Reveal-SDK.debug.xcconfig"; sourceTree = "<group>"; };
 		B71C9817128CE4B7EC0C2389B2E80C42 /* EasyPeasy-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "EasyPeasy-prefix.pch"; sourceTree = "<group>"; };
+		C7BB20B567322C67DE4F17BF90A6C182 /* Reveal-SDK-xcframeworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Reveal-SDK-xcframeworks.sh"; sourceTree = "<group>"; };
 		C7E62C6465DEC51E86281AAA5DDC5B05 /* Pods-transition-practice-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-transition-practice-acknowledgements.markdown"; sourceTree = "<group>"; };
 		C9DD750E81B9886D4567EA6E6D721E3A /* DimensionAttribute+AppKit.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "DimensionAttribute+AppKit.swift"; path = "EasyPeasy/DimensionAttribute+AppKit.swift"; sourceTree = "<group>"; };
 		CA87C51DEE18E93CAB8F786854665203 /* NSView+Easy.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "NSView+Easy.swift"; path = "EasyPeasy/NSView+Easy.swift"; sourceTree = "<group>"; };
@@ -110,6 +111,7 @@
 		DAA904A32FE9D57978685751A8239D37 /* DimensionAttribute.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DimensionAttribute.swift; path = EasyPeasy/DimensionAttribute.swift; sourceTree = "<group>"; };
 		DBB9397A1DD6573907ABE14C1E4EF530 /* Priority.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Priority.swift; path = EasyPeasy/Priority.swift; sourceTree = "<group>"; };
 		E14137008E974111A689190D5B4867A9 /* EasyPeasy-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "EasyPeasy-umbrella.h"; sourceTree = "<group>"; };
+		E4CA1DC0B97ED54796A81084856DDA12 /* Reveal-SDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Reveal-SDK.release.xcconfig"; sourceTree = "<group>"; };
 		F2E7099394FE3A9EB13C02FADC4F1D2E /* Context.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Context.swift; path = EasyPeasy/Context.swift; sourceTree = "<group>"; };
 		F5FA2DCE4C45D6095FFB2BCE19AE08F7 /* EasyPeasy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = EasyPeasy.release.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -165,6 +167,14 @@
 			path = EasyPeasy;
 			sourceTree = "<group>";
 		};
+		4AD9C16273476F7FC770AFAB14F76759 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				293F0A857831545EB98E02A25BC8F45F /* RevealServer.xcframework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		578452D2E740E91742655AC8F1636D1F /* iOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -196,21 +206,11 @@
 			path = "../Target Support Files/EasyPeasy";
 			sourceTree = "<group>";
 		};
-		75E26FDAD562826D8DCE37C60FE1994C /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				63E3B8F99FECA3496820EDFB8DD0D9A8 /* Reveal-SDK.debug.xcconfig */,
-				5F165632959A8F85683CD05B9ED9BA6A /* Reveal-SDK.release.xcconfig */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/Reveal-SDK";
-			sourceTree = "<group>";
-		};
 		9355F279679CF2EAF4DCD0FAD6E6F4DA /* Pods */ = {
 			isa = PBXGroup;
 			children = (
 				2706E0CA9D4B107AA3328F74CF78AE17 /* EasyPeasy */,
-				E9994228921EFCFB9AB46E0C689A6011 /* Reveal-SDK */,
+				CE2A440909A32AD5EE10C2099518F5DD /* Reveal-SDK */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -232,6 +232,27 @@
 			path = "Target Support Files/Pods-transition-practice";
 			sourceTree = "<group>";
 		};
+		B30634130CEAF626B486C51BD8D38F31 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				C7BB20B567322C67DE4F17BF90A6C182 /* Reveal-SDK-xcframeworks.sh */,
+				AE9852BFC042CFA320B8A7D35C05E30F /* Reveal-SDK.debug.xcconfig */,
+				E4CA1DC0B97ED54796A81084856DDA12 /* Reveal-SDK.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Reveal-SDK";
+			sourceTree = "<group>";
+		};
+		CE2A440909A32AD5EE10C2099518F5DD /* Reveal-SDK */ = {
+			isa = PBXGroup;
+			children = (
+				4AD9C16273476F7FC770AFAB14F76759 /* Frameworks */,
+				B30634130CEAF626B486C51BD8D38F31 /* Support Files */,
+			);
+			name = "Reveal-SDK";
+			path = "Reveal-SDK";
+			sourceTree = "<group>";
+		};
 		CF1408CF629C7361332E53B88F7BD30C = {
 			isa = PBXGroup;
 			children = (
@@ -251,16 +272,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		E9994228921EFCFB9AB46E0C689A6011 /* Reveal-SDK */ = {
-			isa = PBXGroup;
-			children = (
-				EC056D31AFECD0F7E0237136380D43A9 /* Frameworks */,
-				75E26FDAD562826D8DCE37C60FE1994C /* Support Files */,
-			);
-			name = "Reveal-SDK";
-			path = "Reveal-SDK";
-			sourceTree = "<group>";
-		};
 		EB7BCB0D2BDE36ABB6B83E189BE5CBCE /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -268,14 +279,6 @@
 				596E5C7AC4385F73EB413C7A6CAE98E5 /* Pods-transition-practice */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		EC056D31AFECD0F7E0237136380D43A9 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				6D965B9B984A51CF15B9B25BC132EBD5 /* RevealServer.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -384,6 +387,26 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		71FA33C24C5981C5B3699F790DC7A1FF /* [CP] Copy XCFrameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Reveal-SDK/Reveal-SDK-xcframeworks-input-files.xcfilelist",
+			);
+			name = "[CP] Copy XCFrameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Reveal-SDK/Reveal-SDK-xcframeworks-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Reveal-SDK/Reveal-SDK-xcframeworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		5183C7772B0CBBB209E60043DFC373A4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -441,9 +464,9 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		2F1E65A3772CD1706396C145FE44E866 /* Debug */ = {
+		6A346B5D15CEC367CF2246EF971BB86D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 63E3B8F99FECA3496820EDFB8DD0D9A8 /* Reveal-SDK.debug.xcconfig */;
+			baseConfigurationReference = AE9852BFC042CFA320B8A7D35C05E30F /* Reveal-SDK.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -550,23 +573,6 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				SYMROOT = "${SRCROOT}/../build";
-			};
-			name = Release;
-		};
-		A2A0C99BAEF5680CDABA071D5D018ED1 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5F165632959A8F85683CD05B9ED9BA6A /* Reveal-SDK.release.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -746,9 +752,35 @@
 			};
 			name = Debug;
 		};
+		D8514FC91944E774E1FC6591AA4A2906 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E4CA1DC0B97ED54796A81084856DDA12 /* Reveal-SDK.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		2DC0A92B3E67DD8CE549653070680133 /* Build configuration list for PBXAggregateTarget "Reveal-SDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A346B5D15CEC367CF2246EF971BB86D /* Debug */,
+				D8514FC91944E774E1FC6591AA4A2906 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -763,15 +795,6 @@
 			buildConfigurations = (
 				7001270D620FBB37EDDA80752E59DE06 /* Debug */,
 				A6CAB1F306BB76B407E0736854E56989 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		676F4BB658125F19314000817E9BFB9D /* Build configuration list for PBXAggregateTarget "Reveal-SDK" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				2F1E65A3772CD1706396C145FE44E866 /* Debug */,
-				A2A0C99BAEF5680CDABA071D5D018ED1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
